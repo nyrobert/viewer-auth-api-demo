@@ -11,11 +11,17 @@ $app = AppFactory::create();
 $app->addRoutingMiddleware();
 $app->addErrorMiddleware(true, true, true);
 
-$app->get('/authentication', function (Request $request, Response $response, $args) {
+$app->get('/', function (Request $request, Response $response, $args) {
 	$loader = new \Twig\Loader\FilesystemLoader('templates');
 	$twig = new \Twig\Environment($loader);
 
 	$response->getBody()->write($twig->render('index.html'));
+
+	return $response;
+});
+
+$app->get('/auth', function (Request $request, Response $response, $args) {
+	$response->getBody()->write('auth');
 
 	return $response;
 });
