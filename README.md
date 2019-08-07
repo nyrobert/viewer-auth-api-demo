@@ -6,7 +6,8 @@ lets you implement custom authentication for authenticating viewers of live and 
 ## Requirements
 
 * PHP >= 7.0
-* IBM Video Streaming account with Viewer Authentication API
+* IBM Video Streaming account
+* Authentication settings for Viewer Authentication API
 
 ## Installation
 
@@ -18,6 +19,11 @@ lets you implement custom authentication for authenticating viewers of live and 
   ```shell
   php composer.phar install
   ```
+
+## Usage
+The authentication screen is the app's main page. The /auth endpoint does the authentication. 
+Valid email address with the password 'ibm' is accepted, otherwise the authentication will
+fail.
 
 ## License
 

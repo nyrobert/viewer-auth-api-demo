@@ -41,7 +41,7 @@ $app->post('/auth', function (Request $request, Response $response, $args) {
 		// hash creation
 		$hash = md5(implode('|', $userData) . '|' . $expiration . '|' . SECRET);
 
-		// auth response creation
+		// auth response creation with JSON encoding
 		$authResponse = array_chunk(
 			array_merge($userData, ['hashExpire' => $expiration, 'hash' => $hash]),
 			1,
@@ -49,9 +49,11 @@ $app->post('/auth', function (Request $request, Response $response, $args) {
 		);
 		$authResponse = json_encode($authResponse);
 	} else {
+		// just return the string false if the authentication failed
 		$authResponse = 'false';
 	}
 
+	// pass the auth response back to IBM Video Streaming player
 	return $response
 		->withHeader('Location', 'https://video.ibm.com/embed/hashlock/pass?hash=' . $authResponse)
 		->withStatus(302);
