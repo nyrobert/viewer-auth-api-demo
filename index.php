@@ -6,6 +6,11 @@ use Slim\Factory\AppFactory;
 
 require __DIR__ . '/vendor/autoload.php';
 
+// shared secret with IBM Video Streaming
+// required for creating the signed hash
+// you can set up secret on the IBM Video Streaming dashboard or with the API
+const SECRET = 'GP7xjVzY';
+
 $app = AppFactory::create();
 
 $app->addRoutingMiddleware();
@@ -20,10 +25,36 @@ $app->get('/', function (Request $request, Response $response, $args) {
 	return $response;
 });
 
-$app->get('/auth', function (Request $request, Response $response, $args) {
-	$response->getBody()->write('auth');
+$app->post('/auth', function (Request $request, Response $response, $args) {
+	$data = $request->getParsedBody();
 
-	return $response;
+	// authentication in your system, can be anything
+	if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) && $data['password'] === 'ibm') {
+		// array of parameters that will be hashed
+		$userData = [
+			'user' => $data['email'],
+		];
+
+		// set hash expiration to 5 minutes
+		$expiration = time() + 300;
+
+		// hash creation
+		$hash = md5(implode('|', $userData) . '|' . $expiration . '|' . SECRET);
+
+		// auth response creation
+		$authResponse = array_chunk(
+			array_merge($userData, ['hashExpire' => $expiration, 'hash' => $hash]),
+			1,
+			true
+		);
+		$authResponse = json_encode($authResponse);
+	} else {
+		$authResponse = 'false';
+	}
+
+	return $response
+		->withHeader('Location', 'https://video.ibm.com/embed/hashlock/pass?hash=' . $authResponse)
+		->withStatus(302);
 });
 
 $app->run();

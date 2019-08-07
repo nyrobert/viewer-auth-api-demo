@@ -6,15 +6,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
 </head>
 <body>
 	<div class="container">
-		<h2>IBM FileNet Login</h2>
+		<h2>Company Login</h2>
 	</div>
 
 	<div class="container">
-		<form action="/auth" method="post" class="form-example">
+		<form action="/auth" method="post" enctype="application/x-www-form-urlencoded">
 			<div class="form-group">
 				<label for="email">Email: </label>
 				<input type="email" name="email" id="email" class="form-control" required>
