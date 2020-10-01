@@ -31,6 +31,8 @@ $app->post('/auth', function (Request $request, Response $response, $args) {
 	// authentication in your system, can be anything
 	if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) && $data['password'] === 'ibm') {
 		// array of parameters that will be hashed
+		// the value of user field will be used as viewer identifier
+		// viewer identifier is used in Viewer tracking product and in the Analytics API
 		$userData = [
 			'user' => $data['email'],
 		];
