@@ -55,7 +55,7 @@ $app->post('/auth', function (Request $request, Response $response, $args) {
 
 	// pass the auth response back to IBM Video Streaming player
 	return $response
-		->withHeader('Location', 'https://video.ibm.com/embed/hashlock/pass?hash=' . $authResponse)
+		->withHeader('Location', 'https://video.ibm.com/embed/hashlock/pass?hash=' . urlencode($authResponse))
 		->withStatus(302);
 });
 
